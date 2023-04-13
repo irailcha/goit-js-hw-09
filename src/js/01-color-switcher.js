@@ -19,8 +19,11 @@ startBtn.addEventListener("click", () => {
 
 
 stopBtn.addEventListener("click", () => {
+    
+
   clearInterval(timerId);
   console.log(`Interval with id ${timerId} has stopped!`);
+  
 });
 
 
