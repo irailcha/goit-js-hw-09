@@ -30,6 +30,9 @@ console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
 console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20};
 
 
+const addLeadingZero = (value) =>
+  String(value).padStart(2, '0');
+
 
 
 const datetimePicker = document.getElementById("datetime-picker");
@@ -68,29 +71,24 @@ flatpickr(datetimePicker, options);
 
 
 let timerId = null;
-// timerId = setInterval(() => { }, 1000);
-// Напиши функцію addLeadingZero(value), яка
-//  використовує метод padStart() і перед рендерингом інтефрейсу форматує значення.
 
-
-
-
-
-
-
-
-    
 button.addEventListener("click", () => {
-    button.disabled = true;
-    let ms = [];
-    ms = selectedDates[0] - currentTime;
-    const time = convertMs(ms);
-
-    daysEl.textContent = time.days;
-    hoursEl.textContent = time.hours;
-    minutesEl.textContent = time.minutes;
-    secondsEl.textContent = time.seconds;
- 
-
+button.disabled = true;
+const endDate = selectedDates[0];
+timerId = setInterval(() => {
+const ms = endDate - new Date();
+  if (ms < 0) {
+      clearInterval(timerId);
+      daysEl.textContent = '00';
+      hoursEl.textContent = '00';
+      minutesEl.textContent = '00';
+      secondsEl.textContent = '00';
+  } else {
+      const time = convertMs(ms);
+      daysEl.textContent = addLeadingZero(time.days);
+      hoursEl.textContent = addLeadingZero(time.hours);
+      minutesEl.textContent = addLeadingZero(time.minutes);
+      secondsEl.textContent = addLeadingZero(time.seconds);
+  }
+  }, 1000);
 });
-

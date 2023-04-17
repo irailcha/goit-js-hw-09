@@ -9,7 +9,7 @@ const body = document.querySelector("body");
 let timerId = null;
 
 startBtn.addEventListener("click", () => {
-  startBtn.setAttribute('disabled', true);
+  startBtn.disabled = true;
   timerId = setInterval(() => {
  console.log(getRandomHexColor()); 
     body.style.backgroundColor = getRandomHexColor();
@@ -19,11 +19,7 @@ startBtn.addEventListener("click", () => {
 
 
 stopBtn.addEventListener("click", () => {
-    
-
-  clearInterval(timerId);
-  console.log(`Interval with id ${timerId} has stopped!`);
-  
+    clearInterval(timerId);
 });
 
 
