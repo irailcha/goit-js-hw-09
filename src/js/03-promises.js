@@ -34,15 +34,22 @@ formElement.addEventListener('submit', (event) => {
     promises.push(promise);
   }
 
-  Promise.allSettled(promises)
-    .then((results) => {
-      results.forEach(({ status, value, reason }) => {
-        const { position, delay } = value || reason;
-        if (status === 'fulfilled') {
-          Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
-        } else {
-          Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
-        }
-      });
+Promise.allSettled(promises)
+  .then((results) => {
+    let interval = delay;
+    results.reduce(async (promise, { status, value, reason }) => {
+      await promise;
+      const { position, delay } = value || reason;
+      if (status === 'fulfilled') {
+        Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+      } else {
+        Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+      }
+      interval += step;
+      return new Promise((resolve) => setTimeout(resolve, interval));
+    }, Promise.resolve());
+  });
+
     });
-});
+
+
